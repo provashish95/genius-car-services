@@ -1,0 +1,25 @@
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+}
+
+.services-title {
+    text-align: center;
+    color: lightblue;
+}
+
+/* make services responsive... */
+/* 0px to maximum 576px ... */
+@media only screen and (max-width: 576px) {
+    .services-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* 577px to maximum 992px.... */
+@media only screen and (min-width: 577px) and (max-width: 992px) {
+    .services-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
