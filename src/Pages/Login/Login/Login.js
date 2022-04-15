@@ -42,7 +42,7 @@ const Login = () => {
                     Submit
                 </Button>
             </Form>
-            <p>New to genius car? <span className='text-danger' onClick={navigateRegister}>Please Register</span></p>
+            <p>New to genius car? <span className='text-danger btn' onClick={navigateRegister}>Please Register</span></p>
         </div>
     );
 };
