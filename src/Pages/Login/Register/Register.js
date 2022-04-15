@@ -1,23 +1,41 @@
 import React, { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
 
 const Register = () => {
+    const [
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
 
     const navigate = useNavigate();
 
     const navigateRegister = () => {
         navigate('/login');
     }
+    if (user) {
+        navigate('/home');
+    }
+
+    if (error) {
+        return (
+            <div>
+                <p>Error: {error.message}</p>
+            </div>
+        );
+    }
 
     const handleRegister = event => {
         event.preventDefault();
+        const name = event.target.userName.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
 
-        console.log(event.target.userName.value);
-        console.log(event.target.email.value);
-        console.log(event.target.password.value);
-        console.log(event.target.confirmPassword.value);
-
+        createUserWithEmailAndPassword(email, password);
     }
     return (
         <div className='container w-50 mx-auto'>
@@ -39,10 +57,7 @@ const Register = () => {
                     <Form.Label>Password</Form.Label>
                     <Form.Control name='password' type="password" placeholder="Password" required />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control name='confirmPassword' type="password" placeholder="Confirm Password" required />
-                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
                     <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
