@@ -53,9 +53,9 @@ const Register = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
+                    <Form.Check id='terms' type="checkbox" label="Accept genius car terms and condition" />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button className='w-50 mx-auto d-block mb-2' variant="primary" type="submit">
                     Register
                 </Button>
             </Form>
