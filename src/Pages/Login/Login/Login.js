@@ -21,7 +21,7 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
-
+    let errorElement;
 
 
     const handleSubmit = (event) => {
@@ -37,6 +37,10 @@ const Login = () => {
 
     const navigateRegister = event => {
         navigate('/register');
+    }
+
+    if (error) {
+        errorElement = <p className='text-danger'>Error: {error?.message}</p>
     }
 
 
@@ -59,6 +63,9 @@ const Login = () => {
                 </Button>
             </Form>
             <p>New to genius car? <span className='text-primary btn' onClick={navigateRegister}>Please Register</span></p>
+            {
+                errorElement
+            }
             <SocialLogin></SocialLogin>
         </div>
     );
