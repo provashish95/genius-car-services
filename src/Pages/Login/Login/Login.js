@@ -1,11 +1,19 @@
 import React, { useRef } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import './Login.css';
 
 const Login = () => {
+
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const emailRef = useRef('');
+    const passwordRef = useRef('');
+    let from = location.state?.from?.pathname || "/";
+
     const [
         signInWithEmailAndPassword,
         user,
@@ -13,9 +21,7 @@ const Login = () => {
         error,
     ] = useSignInWithEmailAndPassword(auth);
 
-    const navigate = useNavigate();
-    const emailRef = useRef('');
-    const passwordRef = useRef('');
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -25,11 +31,9 @@ const Login = () => {
         signInWithEmailAndPassword(email, password)
     }
     if (user) {
-        navigate('/home');
+        navigate(from, { replace: true });
     }
-    if (error) {
-        navigate('/register')
-    }
+
     const navigateRegister = event => {
         navigate('/register');
     }
