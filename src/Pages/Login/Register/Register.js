@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -6,6 +6,7 @@ import auth from '../../../firebase.init';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const Register = () => {
+    const [agree, setAgree] = useState(false);
     const [
         createUserWithEmailAndPassword,
         user,
@@ -30,13 +31,18 @@ const Register = () => {
         );
     }
 
+    console.log(agree);
+
     const handleRegister = event => {
         event.preventDefault();
         const name = event.target.userName.value;
         const email = event.target.email.value;
         const password = event.target.password.value;
+        //  const agree = event.target.terms.checked;
+        if (agree) {
+            createUserWithEmailAndPassword(email, password);
+        }
 
-        createUserWithEmailAndPassword(email, password);
     }
     return (
         <div className='container w-50 mx-auto'>
@@ -53,9 +59,10 @@ const Register = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check id='terms' type="checkbox" label="Accept genius car terms and condition" />
+                    {/* <Form.Check onClick={() => setAgree(!agree)} className={agree ? 'text-primary' : 'text-danger'} id='terms' name='terms' type="checkbox" label="Accept genius car terms and condition" /> */}
+                    <Form.Check onClick={() => setAgree(!agree)} className={`fw-bold ${agree ? '' : 'text-danger'}`} id='terms' name='terms' type="checkbox" label="Accept genius car terms and condition" />
                 </Form.Group>
-                <Button className='w-50 mx-auto d-block mb-2' variant="primary" type="submit">
+                <Button className='w-50 mx-auto d-block mb-2' variant="primary" type="submit" disabled={!agree}>
                     Register
                 </Button>
             </Form>
