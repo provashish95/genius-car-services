@@ -21,7 +21,7 @@ const ServiceDetail = () => {
                 <img src={service.img} alt="img" />
             </div>
             <div className='text-center'>
-                <Link to='/checkout'>
+                <Link to={`/checkout/${serviceId}`}>
                     <button className='btn btn-primary text-center'>Proceed to checkout!</button>
                 </Link>
             </div>
