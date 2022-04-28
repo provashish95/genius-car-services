@@ -9,6 +9,7 @@ import './Login.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import useToken from '../../../useServices/useToken';
 
 const Login = () => {
     const location = useLocation();
@@ -25,6 +26,7 @@ const Login = () => {
     ] = useSignInWithEmailAndPassword(auth);
     const [sendPasswordResetEmail, sending, resetError] = useSendPasswordResetEmail(auth);
     let errorElement;
+    const [token] = useToken(user);
 
     if (loading || sending) {
         return <Loading></Loading>
@@ -34,14 +36,14 @@ const Login = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        await signInWithEmailAndPassword(email, password)
+        await signInWithEmailAndPassword(email, password);
+
         const { data } = await axios.post('https://glacial-basin-08430.herokuapp.com/login', { email })
-        console.log(data);
         localStorage.setItem('accessToken', data.accessToken);
-        navigate(from, { replace: true });
+
     }
-    if (user) {
-        // navigate(from, { replace: true });
+    if (token) {
+        navigate(from, { replace: true });
     }
 
     const navigateRegister = event => {

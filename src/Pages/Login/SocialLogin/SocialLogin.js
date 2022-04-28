@@ -6,12 +6,14 @@ import { useSignInWithFacebook, useSignInWithGithub, useSignInWithGoogle } from 
 import auth from '../../../firebase.init';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loading from '../../Shared/Loading/Loading';
+import useToken from '../../../useServices/useToken';
 
 const SocialLogin = () => {
     const navigate = useNavigate();
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     const [signInWithGithub, gitUser, gitLoading, gitError] = useSignInWithGithub(auth);
     const [signInWithFacebook, facebookUser, facebookLoading, facebookError] = useSignInWithFacebook(auth);
+    const [token] = useToken(user || gitUser || facebookUser);
     let errorElement;
     const location = useLocation();
 
@@ -25,7 +27,7 @@ const SocialLogin = () => {
         errorElement = <p className='text-danger'>Error: {error?.message}  {gitError?.message} {facebookError?.message}</p>
     }
 
-    if (user || gitUser || facebookUser) {
+    if (token) {
         navigate(from, { replace: true });
     }
 
